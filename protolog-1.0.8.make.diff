@@ -1,0 +1,60 @@
+diff -urN protolog-1.0.8.orig/src/Makefile protolog-1.0.8/src/Makefile
+--- protolog-1.0.8.orig/src/Makefile	Sat Feb 20 12:25:51 1999
++++ protolog-1.0.8/src/Makefile	Sat Feb 20 12:31:07 1999
+@@ -31,10 +31,10 @@
+ CC=gcc
+ 
+ # Compiler warnings
+-WARNINGS= -pedantic -Wall
++WARNINGS= -Wall
+ 
+ # Compiler flags
+-CCOPTS = -O2 -fomit-frame-pointer
++CCOPTS = $(OPT) -fomit-frame-pointer
+ 
+ # The makefile standards document I read says that I have to put it here...
+ SHELL = /bin/sh
+@@ -54,9 +54,9 @@
+ PRO_IGN_HOST = 32
+ 
+ # Location of sed (for my Slackware box)
+-SEDBIN       = /usr/bin/sed
++# SEDBIN       = /usr/bin/sed
+ # Use this for Redhat 5.1
+-# SEDBIN     = /bin/sed
++SEDBIN     = /bin/sed
+ 
+ # sed command
+ SEDCMDS      = "s/@version@/$(PRO_VERSION)/g;s/@releasedate@/$(RELEASEDATE)/g;s%@logdir@%$(logdir)%g"
+@@ -88,25 +88,20 @@
+ 
+ install:
+ 	@$(MKDIRECTORY) ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root -s ${srcdir}/plogtcp ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root -s ${srcdir}/plogudp ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root -s ${srcdir}/plogicmp ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root -s ${srcdir}/ipretplog ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root ${srcdir}/LaunchLoggers ${bindir}
+-	$(INSTALL) -g root -m $(BINMODE) -o root ${srcdir}/KillLoggers ${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogtcp ${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogudp ${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogicmp ${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/ipretplog ${bindir}
++	$(INSTALL) -m $(BINMODE) ${srcdir}/LaunchLoggers ${bindir}
++	$(INSTALL) -m $(BINMODE) ${srcdir}/KillLoggers ${bindir}
+ 	@echo "Installing man pages..."
+ 	@$(MKDIRECTORY) ${mandir}
+ 	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogtcp.8.in   > ${mandir}/plogtcp.8
+ 	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogudp.8.in   > ${mandir}/plogudp.8
+ 	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogicmp.8.in  > ${mandir}/plogicmp.8
+ 	@$(SEDBIN) $(SEDCMDS) ${docdir}/ipretplog.8.in > ${mandir}/ipretplog.8
+-	@chown 0.0 ${mandir}/plogtcp.8
+-	@chown 0.0 ${mandir}/plogudp.8
+-	@chown 0.0 ${mandir}/plogicmp.8
+-	@chown 0.0 ${mandir}/ipretplog.8
+ 	$(MKDIRECTORY) ${logdir}
+ 	@chmod $(LOGDIRMODE) ${logdir}
+-	@chown 0.0 ${logdir}
+ 	@echo
+ 
+ uninstall:

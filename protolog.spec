@@ -139,6 +139,6 @@ fi
 %attr(750,root,root) %dir /var/log/protolog
 %attr(750,root,root) %dir /var/log/archiv/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
-%attr(640,root,root) /etc/logrotate.d/protolog
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/protolog
 %attr(640,root,root) %config %{_sysconfdir}/protolog.conf
  %{_mandir}/man8/*

@@ -1,20 +1,19 @@
 Summary:     The Internet Protocols logger
+Summary(pl): Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:        protolog
-Version:     1.0.2
-Release:     2d
+Version:     1.0.6
+Release:     1d
 Copyright:   GPL
 Group:       Networking
-Group(pl):   Sieæ
+Group(pl):   Sieciowe
 Vendor:	     Diego Javier Grigna <diego@grigna.com>
 URL:	     http://www.grigna.com/diego/linux/
-#######	     ftp://sunsite.unc.edu/pub/Linux/system/network/monitor
-Source:      %{name}-%{version}.tar.gz
-Patch:	     %{name}-1.0.2.compile.diff
-Patch1:	     %{name}-1.0.2.quiet.diff
+#######      ftp://sunsite.unc.edu/pub/Linux/system/network/monitor
+Source:	     %{name}-%{version}.tar.gz
+Patch0:	     %{name}-1.0.6.make.diff
+Patch1:	     %{name}-1.0.6.quiet.diff
 Patch2:	     %{name}-1.0.2.console.diff
-Prereq:	     /sbin/chkconfig
-Buildroot:   /var/tmp/%{name}-%{version}-root
-Summary(pl): Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
+Buildroot:   /var/tmp/buildroot-%{name}-%{version}
 
 %description
 It consists of three daemons that logs incoming
@@ -26,7 +25,7 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 
 %prep
 %setup -q
-%patch  -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
@@ -36,15 +35,15 @@ make -C src OPT="$RPM_OPT_FLAGS"
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,logrotate.d}
+install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}}
 
 make -C src install \
 bindir=$RPM_BUILD_ROOT/usr/sbin \
 mandir=$RPM_BUILD_ROOT/usr/man/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog
 
-touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log}
-touch $RPM_BUILD_ROOT/var/log/protolog/{tcp.raw,udp.log,udp.raw}
+touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw}
+touch $RPM_BUILD_ROOT/var/log/protolog/{udp.log,udp.raw}
 
 cat  << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
 #!/bin/bash
@@ -71,19 +70,21 @@ fi
 # See how we were called.
 case "\$1" in
   start)
-        echo -n "Starting protolog daemons: "
+        show Starting protolog TCP daemon:
         daemon plogtcp \$PLOGTCP
+	show Starting protolog UDP daemon:
 	daemon plogudp \$PLOGUDP
+	show Starting protolog ICMP daemon:
 	daemon plogicmp \$PLOGICMP
-        echo
         touch /var/lock/subsys/protolog
         ;;
   stop)
-        echo -n "Stopping protolog daemons: "
+        show Stopping protolog TCP daemon:
         killproc plogtcp
+	show Stopping protolog UDP daemon:
 	killproc plogudp
+	show Stopping protolog ICMP daemon:
 	killproc plogicmp
-        echo
         rm -f /var/lock/subsys/protolog
         ;;
   status)
@@ -105,18 +106,15 @@ cat  << EOF > $RPM_BUILD_ROOT/etc/protolog.conf
 #
 # Opcje dla plogtcp - TCP packet logger
 # zobacz:	man plogtcp
-# type:		man plogtcp
-PLOGTCP="-lrqi \`hostname --ip-address\`"
+PLOGTCP="-lri \`hostname --ip-address\`"
 
 # Opcje dla plogudp - UDP packet logger
 # zobacz:	man plogudp
-# type:		man plogudp
-PLOGUDP="-lqi \`hostname --ip-address\`"
+PLOGUDP="-li \`hostname --ip-address\`"
 
 # Opcje dla plogicmp - ICMP packet logger
 # zobacz:	man plogicmp
-# type:		man plogicmp
-PLOGICMP="-lrqi \`hostname --ip-address\`"
+PLOGICMP="-lri \`hostname --ip-address\`"
 
 EOF
 
@@ -155,7 +153,8 @@ compress
 
 EOF
 
-bzip2 -9 $RPM_BUILD_ROOT/usr/man/man8/* doc/BUGS doc/README
+gzip -9fn $RPM_BUILD_ROOT/usr/man/man8/*
+bzip2 -9 doc/BUGS doc/README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -164,7 +163,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/chkconfig --add protolog
 
 %preun
-if [ $1 = 0 ]; then
+if [ $0 = 1]; then
     /sbin/chkconfig --del protolog
 fi
 
@@ -181,12 +180,17 @@ fi
 %attr(644,root, man) /usr/man/man8/*
 
 %changelog
+* Wed Feb 03 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+  [1.0.6-1d]
+- new upstream release
+- new rc-scripts ready
+
 * Mon Jan 18 1999 Arkadiusz Mi¶kiewicz <misiek@pld.za.net>
-[1.0.2-2d]
+  [1.0.2-1d]
 - added logrotate config
 - added console patch
 
 * Sun Jan 17 1999 Arkadiusz Mi¶kiewicz <misiek@pld.za.net>
-[1.0.2-1d]
+  [1.0.2-1d]
 - initial RPM release
 - TODO: logrotate config

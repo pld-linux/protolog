@@ -2,7 +2,7 @@ Summary:	The Internet Protocols logger
 Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -125,7 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/chkconfig --add protolog
 
 %preun
-/sbin/chkconfig --del protolog
+if [ "$1" = "0" ]; then
+	/sbin/chkconfig --del protolog
+fi
 
 %files
 %defattr(644,root,root,755)

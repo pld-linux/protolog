@@ -33,7 +33,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}}
 
 make -C src install \
-bindir=$RPM_BUILD_ROOT/usr/sbin \
+bindir=$RPM_BUILD_ROOT%{_sbindir} \
 mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog
 
@@ -162,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/BUGS doc/README
 
-%attr(755,root,root) /usr/sbin/*
+%attr(755,root,root) %{_sbindir}/*
 %attr(700,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*

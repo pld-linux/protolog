@@ -11,7 +11,8 @@ Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{versio
 # Source0-md5:	c5a48e61170b3ead0dc55ad86454da1d
 Source1:	%{name}.logrotate
 Patch0:		%{name}-1.0.8.make.diff
-Prereq:		/sbin/chkconfig
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -27,12 +28,13 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 %patch -p1
 
 %build
-%{__make} -C src OPT="%{rpmcflags}"
+%{__make} -C src \
+	OPT="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}} \
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,logrotate.d},%{_sbindir},%{_mandir}/man8} \
 	$RPM_BUILD_ROOT/var/log/archiv/protolog
 
 %{__make} -C src install \

@@ -34,7 +34,7 @@ install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}}
 
 make -C src install \
 bindir=$RPM_BUILD_ROOT/usr/sbin \
-mandir=$RPM_BUILD_ROOT/usr/man/man8 \
+mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog
 
 touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
@@ -147,7 +147,7 @@ compress
 
 EOF
 
-bzip2 -9 $RPM_BUILD_ROOT/usr/man/man8/*
+bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -168,7 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
 %attr(640,root,root) /etc/logrotate.d/protolog
 %attr(640,root,root) %config /etc/protolog.conf
-%attr(644,root,man)  /usr/man/man8/*
+%attr(644,root,man)  %{_mandir}/man8/*
 
 %changelog
 * Sat Feb 20 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>

@@ -32,7 +32,7 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}} \
-	$RPM_BUILD_ROOT/var/log/archiv
+	$RPM_BUILD_ROOT/var/log/archiv/protolog
 
 %{__make} -C src install \
 bindir=$RPM_BUILD_ROOT%{_sbindir} \

@@ -2,7 +2,7 @@ Summary:	The Internet Protocols logger
 Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking
 Group(pl):	Sieciowe
@@ -38,7 +38,7 @@ bindir=$RPM_BUILD_ROOT%{_sbindir} \
 mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog
 
-touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
+touch $RPM_BUILD_ROOT/var/log/{archiv,}/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
 
 cat  << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
 #!/bin/bash
@@ -133,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
+%attr(750,root,root) %dir /var/log/archiv/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
 %attr(640,root,root) /etc/logrotate.d/protolog
 %attr(640,root,root) %config %{_sysconfdir}/protolog.conf

@@ -3,20 +3,20 @@ Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
 Release:	3
-Copyright:	GPL
+License:	GPL
 Group:		Networking
 Group(pl):	Sieciowe
 Vendor:		Diego Javier Grigna <diego@grigna.com>
 URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
 Source1:	protolog.logrotate
-Patch:		%{name}-1.0.8.make.diff
+Patch0:		%{name}-1.0.8.make.diff
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-It consists of three daemons that logs incoming
-IP/TCP, IP/UDP and IP/ICMP packets.
-						
+It consists of three daemons that logs incoming IP/TCP, IP/UDP and
+IP/ICMP packets.
+
 %description -l pl
 Pakiet zawiera trzy deamony loguj±ce informacjê na temat
 przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
@@ -56,8 +56,8 @@ PLOGTCP="-q"
 PLOGUDP="-q"
 PLOGICMP="-q"
 
-if [ -r /etc/protolog.conf ]; then
-. /etc/protolog.conf
+if [ -r %{_sysconfdir}/protolog.conf ]; then
+. %{_sysconfdir}/protolog.conf
 fi
 
 # Check that networking is up.
@@ -97,7 +97,7 @@ esac
 exit 0
 EOF
 
-cat  << EOF > $RPM_BUILD_ROOT/etc/protolog.conf
+cat << EOF > $RPM_BUILD_ROOT%{_sysconfdir}/protolog.conf
 #
 # Opcje dla plogtcp - TCP packet logger
 # zobacz:	man plogtcp
@@ -115,7 +115,7 @@ EOF
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
-bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -135,5 +135,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(750,root,root) %dir /var/log/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
 %attr(640,root,root) /etc/logrotate.d/protolog
-%attr(640,root,root) %config /etc/protolog.conf
+%attr(640,root,root) %config %{_sysconfdir}/protolog.conf
  %{_mandir}/man8/*

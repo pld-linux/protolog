@@ -113,7 +113,7 @@ PLOGICMP="-qlri \`hostname --ip-address\`"
 
 EOF
 
-install %{SOURCE1} /etc/logrotate.d/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
 bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
 

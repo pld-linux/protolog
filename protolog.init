@@ -4,17 +4,17 @@
 # description:	IP protocols logger - logs TCP and ICMP.
 #
 # Source function library.
-. %{_sysconfdir}/rc.d/init.d/functions
+. /etc/rc.d/init.d/functions
 
 # Source networking configuration.
-. %{_sysconfdir}/sysconfig/network
+. /etc/sysconfig/network
 
 PLOGTCP="-q"
 PLOGUDP="-q"
 PLOGICMP="-q"
 
 if [ -r /etc/sysconfig/protolog.conf ]; then
-. /etc/sysconfig/protolog.conf
+	. /etc/sysconfig/protolog.conf
 fi
 
 # Check that networking is up.

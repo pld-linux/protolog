@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 #
-# chkconfig: 2345 50 50
-# description: IP protocols logger - logs TCP and ICMP.
+# chkconfig:	2345 50 50
+# description:	IP protocols logger - logs TCP and ICMP.
 #
 # Source function library.
 . %{_sysconfdir}/rc.d/init.d/functions
@@ -18,37 +18,45 @@ if [ -r %{_sysconfdir}/protolog.conf ]; then
 fi
 
 # Check that networking is up.
-[ \${NETWORKING} = "no" ] && exit 0
-# See how we were called.
-case "\$1" in
+if [ "${NETWORKING}" = "no" ]; then
+	echo "WARNING: Networking is down. Protolog service can't be runed."
+	exit 1
+fi
+
+case "$1" in
   start)
-        show Starting protolog TCP daemon:	
-        daemon plogtcp \$PLOGTCP
-	show Starting protolog UDP daemon:	
-	daemon plogudp \$PLOGUDP
-	show Starting protolog ICMP daemon:	
-	daemon plogicmp \$PLOGICMP
-        touch /var/lock/subsys/protolog
-        ;;
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/protolog ]; then
+		show Starting protolog TCP daemon
+		daemon plogtcp $PLOGTCP
+		show Starting protolog UDP daemon
+		daemon plogudp $PLOGUDP
+		show Starting protolog ICMP daemon
+		daemon plogicmp $PLOGICMP
+		touch /var/lock/subsys/protolog
+	else
+		echo "Protolog already is running"
+	fi
+	;;
   stop)
-        show Stopping protolog TCP daemon:	
-        killproc plogtcp
-	show Stopping protolog UDP daemon:	
+	show Stopping protolog TCP daemon
+	killproc plogtcp
+	show Stopping protolog UDP daemon
 	killproc plogudp
-	show Stopping protolog ICMP daemon:	
+	show Stopping protolog ICMP daemon
 	killproc plogicmp
-        rm -f /var/lock/subsys/protolog
-        ;;
+	rm -f /var/lock/subsys/protolog
+	;;
   status)
-        status protolog
-        ;;
-  restart)
-        \$0 stop
-	\$0 start
-        ;;
+	status protolog
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	;;
   *)
-        echo "Usage:\$0 {start|stop|status|restart}"
-        exit 1
+	echo "Usage: $0 {start|stop|status|restart|reload}"
+	exit 1
 esac
 
 exit 0

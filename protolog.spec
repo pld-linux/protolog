@@ -122,10 +122,10 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/chkconfig --add protolog
+%chkconfig_add
 
 %preun
-/sbin/chkconfig --del protolog
+%chkconfig_del
 
 %files
 %defattr(644,root,root,755)

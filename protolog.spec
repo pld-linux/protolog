@@ -8,6 +8,7 @@ Group:		Networking
 Vendor:		Diego Javier Grigna <diego@grigna.com>
 URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
+# Source0-md5:	c5a48e61170b3ead0dc55ad86454da1d
 Source1:	%{name}.logrotate
 Patch0:		%{name}-1.0.8.make.diff
 Prereq:		/sbin/chkconfig

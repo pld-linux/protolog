@@ -2,7 +2,7 @@ Summary:	The Internet Protocols logger
 Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
-Release:	2
+Release:	3
 Copyright:	GPL
 Group:		Networking
 Group(pl):	Sieciowe

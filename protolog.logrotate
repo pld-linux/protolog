@@ -1,0 +1,30 @@
+/var/log/protolog/icmp.log {
+        daily
+        rotate 28
+}
+
+/var/log/protolog/icmp.raw {
+        daily
+        rotate 28
+}
+
+/var/log/protolog/tcp.log {
+        daily
+        rotate 28
+}
+
+/var/log/protolog/tcp.raw {
+        daily
+        rotate 28
+}
+
+/var/log/protolog/udp.log {
+        daily
+        rotate 28
+}
+
+/var/log/protolog/udp.raw {
+        daily
+        rotate 28
+}
+

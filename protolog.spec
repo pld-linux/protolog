@@ -9,7 +9,7 @@ Vendor:	     Diego Javier Grigna <diego@grigna.com>
 URL:	     http://www.grigna.com/diego/linux/
 Source:      ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
 Patch:	     %{name}-1.0.8.make.diff
-Buildroot:   /var/tmp/buildroot-%{name}-%{version}
+BuildRoot:	/tmp/%{name}-%{version}-root
 Summary(pl): Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 
 %description

@@ -11,7 +11,7 @@ URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
 Source1:	protolog.logrotate
 Patch:		%{name}-1.0.8.make.diff
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 It consists of three daemons that logs incoming

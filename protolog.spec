@@ -44,7 +44,7 @@ install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,logrotate.d},%{_sbindir},%{_mandir}
 
 touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
 
-cat  << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
+cat << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
 #!/bin/bash
 #
 # chkconfig: 2345 50 50
@@ -68,34 +68,34 @@ fi
 [ \${NETWORKING} = "no" ] && exit 0
 # See how we were called.
 case "\$1" in
-  start)
-        show Starting protolog TCP daemon:
-        daemon plogtcp \$PLOGTCP
-	show Starting protolog UDP daemon:
-	daemon plogudp \$PLOGUDP
-	show Starting protolog ICMP daemon:
-	daemon plogicmp \$PLOGICMP
-        touch /var/lock/subsys/protolog
-        ;;
-  stop)
-        show Stopping protolog TCP daemon:
-        killproc plogtcp
-	show Stopping protolog UDP daemon:
-	killproc plogudp
-	show Stopping protolog ICMP daemon:
-	killproc plogicmp
-        rm -f /var/lock/subsys/protolog
-        ;;
-  status)
-        status protolog
-        ;;
-  restart)
-        \$0 stop
-	\$0 start
-        ;;
-  *)
-        echo "Usage: \$0 {start|stop|status|restart}"
-        exit 1
+	start)
+		show Starting protolog TCP daemon:
+		daemon plogtcp \$PLOGTCP
+		show Starting protolog UDP daemon:
+		daemon plogudp \$PLOGUDP
+		show Starting protolog ICMP daemon:
+		daemon plogicmp \$PLOGICMP
+		touch /var/lock/subsys/protolog
+		;;
+	stop)
+		show Stopping protolog TCP daemon:
+		killproc plogtcp
+		show Stopping protolog UDP daemon:
+		killproc plogudp
+		show Stopping protolog ICMP daemon:
+		killproc plogicmp
+		rm -f /var/lock/subsys/protolog
+		;;
+	status)
+		status protolog
+		;;
+	restart)
+		\$0 stop
+		\$0 start
+		;;
+	*)
+		echo "Usage: \$0 {start|stop|status|restart}"
+	exit 1
 esac
 
 exit 0

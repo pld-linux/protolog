@@ -2,7 +2,7 @@ Summary:	The Internet Protocols logger
 Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -12,6 +12,7 @@ URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Patch0:		%{name}-1.0.8.make.diff
+Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description

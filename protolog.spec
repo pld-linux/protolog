@@ -26,14 +26,14 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 %patch -p1
 
 %build
-make -C src OPT="$RPM_OPT_FLAGS"
+%{__make} -C src OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}}
 
-make -C src install \
+%{__make} -C src install \
 bindir=$RPM_BUILD_ROOT%{_sbindir} \
 mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog

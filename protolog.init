@@ -27,42 +27,52 @@ else
 	exit 0
 fi
 
-
+RETVAL=0
 case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/protolog ]; then
 		msg_starting "protolog TCP daemon"
 		daemon plogtcp $PLOGTCP
+		RETVAL=$?
 		msg_starting "protolog UDP daemon"
 		daemon plogudp $PLOGUDP
+		RET=$?
+		[ $RETVAL -eq 0 ] && RETVAL=$RET
 		msg_starting "protolog ICMP daemon"
 		daemon plogicmp $PLOGICMP
-		touch /var/lock/subsys/protolog
+		RET=$?
+		[ $RETVAL -eq 0 ] && RETVAL=$RET
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/protolog
 	else
 		msg_already_running Protolog
-		exit 1
 	fi
 	;;
   stop)
-	msg_stopping "protolog TCP daemon"
-	killproc plogtcp
-	msg_stopping "protolog UDP daemon"
-	killproc plogudp
-	msg_stopping "protolog ICMP daemon"
-	killproc plogicmp
-	rm -f /var/lock/subsys/protolog
+	if [ -f /var/lock/subsys/protolog ]; then
+		msg_stopping "protolog TCP daemon"
+		killproc plogtcp
+		msg_stopping "protolog UDP daemon"
+		killproc plogudp
+		msg_stopping "protolog ICMP daemon"
+		killproc plogicmp
+		rm -f /var/lock/subsys/protolog
+	else
+		msg_not_running Protolog
+	fi
 	;;
   status)
 	status protolog
+	exit $?
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
+	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
-exit 0
+exit $RETVAL

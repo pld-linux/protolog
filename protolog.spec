@@ -169,23 +169,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) /etc/logrotate.d/protolog
 %attr(640,root,root) %config /etc/protolog.conf
  %{_mandir}/man8/*
-
-%changelog
-* Sat Feb 20 1999 Arkadiusz Mi턪iewicz <misiek@misiek.eu.org>
-[1.0.8-1d]
-- new upstream release
-
-* Wed Feb 03 1999 Arkadiusz Mi턪iewicz <misiek@misiek.eu.org>
-[1.0.6-1d]
-- new upstream release
-- new rc-scripts ready
-
-* Mon Jan 18 1999 Arkadiusz Mi턪iewicz <misiek@pld.za.net>
-[1.0.2-1d]
-- added logrotate config
-- added console patch
-
-* Sun Jan 17 1999 Arkadiusz Mi턪iewicz <misiek@pld.za.net>
-[1.0.2-1d]
-- initial RPM release
-- TODO: logrotate config

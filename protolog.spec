@@ -168,7 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
 %attr(640,root,root) /etc/logrotate.d/protolog
 %attr(640,root,root) %config /etc/protolog.conf
-%attr(644,root,man)  %{_mandir}/man8/*
+ %{_mandir}/man8/*
 
 %changelog
 * Sat Feb 20 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>

@@ -4,7 +4,7 @@ Version:     1.0.8
 Release:     1d
 Copyright:   GPL
 Group:       Networking
-Group(pl):   Sieæ
+Group(pl):   Sieciowe
 Vendor:	     Diego Javier Grigna <diego@grigna.com>
 URL:	     http://www.grigna.com/diego/linux/
 Source:      ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz

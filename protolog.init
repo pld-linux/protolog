@@ -13,13 +13,13 @@ PLOGTCP="-q"
 PLOGUDP="-q"
 PLOGICMP="-q"
 
-if [ -r %{_sysconfdir}/protolog.conf ]; then
-. %{_sysconfdir}/protolog.conf
+if [ -r /etc/sysconfig/protolog.conf ]; then
+. /etc/sysconfig/protolog.conf
 fi
 
 # Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	echo "WARNING: Networking is down. Protolog service can't be runed."
+if is_no "${NETWORKING}"; then
+	msg_Network_Down protolog
 	exit 1
 fi
 
@@ -27,23 +27,24 @@ case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/protolog ]; then
-		show Starting protolog TCP daemon
+		msg_starting "protolog TCP daemon"
 		daemon plogtcp $PLOGTCP
-		show Starting protolog UDP daemon
+		msg_starting "protolog UDP daemon"
 		daemon plogudp $PLOGUDP
-		show Starting protolog ICMP daemon
+		msg_starting "protolog ICMP daemon"
 		daemon plogicmp $PLOGICMP
 		touch /var/lock/subsys/protolog
 	else
-		echo "Protolog already is running"
+		msg_Already_Running Protolog
+		exit 1
 	fi
 	;;
   stop)
-	show Stopping protolog TCP daemon
+	msg_stopping "protolog TCP daemon"
 	killproc plogtcp
-	show Stopping protolog UDP daemon
+	msg_stopping "protolog UDP daemon"
 	killproc plogudp
-	show Stopping protolog ICMP daemon
+	msg_stopping "protolog ICMP daemon"
 	killproc plogicmp
 	rm -f /var/lock/subsys/protolog
 	;;
@@ -55,7 +56,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart|reload}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 

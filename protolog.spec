@@ -131,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/BUGS doc/README
 
 %attr(755,root,root) %{_sbindir}/*
-%attr(700,root,root) /etc/rc.d/init.d/protolog
+%attr(754,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /var/log/protolog/*
 %attr(640,root,root) /etc/logrotate.d/protolog

@@ -5,11 +5,12 @@ Version:	1.0.8
 Release:	4
 License:	GPL
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Vendor:		Diego Javier Grigna <diego@grigna.com>
 URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
-Source1:	protolog.logrotate
+Source1:	%{name}.logrotate
 Patch0:		%{name}-1.0.8.make.diff
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -26,7 +27,7 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 %patch -p1
 
 %build
-%{__make} -C src OPT="$RPM_OPT_FLAGS"
+%{__make} -C src OPT="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -35,9 +36,9 @@ install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}} \
 	$RPM_BUILD_ROOT/var/log/archiv/protolog
 
 %{__make} -C src install \
-bindir=$RPM_BUILD_ROOT%{_sbindir} \
-mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
-logdir=$RPM_BUILD_ROOT/var/log/protolog
+	bindir=$RPM_BUILD_ROOT%{_sbindir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
+	logdir=$RPM_BUILD_ROOT/var/log/protolog
 
 touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
 
@@ -115,8 +116,6 @@ PLOGICMP="-qlri \`hostname --ip-address\`"
 EOF
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
-
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -6,7 +6,9 @@ Release:	6
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Vendor:		Diego Javier Grigna <diego@grigna.com>
 URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz

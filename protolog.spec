@@ -31,14 +31,15 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}}
+install -d $RPM_BUILD_ROOT/{etc/{rc.d/init.d,logrotate.d},usr/{sbin,man/man8}} \
+	$RPM_BUILD_ROOT/var/log/archiv
 
 %{__make} -C src install \
 bindir=$RPM_BUILD_ROOT%{_sbindir} \
 mandir=$RPM_BUILD_ROOT%{_mandir}/man8 \
 logdir=$RPM_BUILD_ROOT/var/log/protolog
 
-touch $RPM_BUILD_ROOT/var/log/{archiv,}/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
+touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
 
 cat  << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
 #!/bin/bash

@@ -1,16 +1,17 @@
-Summary:     The Internet Protocols logger
-Name:        protolog
-Version:     1.0.8
-Release:     1d
-Copyright:   GPL
-Group:       Networking
-Group(pl):   Sieciowe
-Vendor:	     Diego Javier Grigna <diego@grigna.com>
-URL:	     http://www.grigna.com/diego/linux/
-Source:      ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
-Patch:	     %{name}-1.0.8.make.diff
+Summary:	The Internet Protocols logger
+Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
+Name:		protolog
+Version:	1.0.8
+Release:	2
+Copyright:	GPL
+Group:		Networking
+Group(pl):	Sieciowe
+Vendor:		Diego Javier Grigna <diego@grigna.com>
+URL:		http://www.grigna.com/diego/linux/
+Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
+Source1:	protolog.logrotate
+Patch:		%{name}-1.0.8.make.diff
 BuildRoot:	/tmp/%{name}-%{version}-root
-Summary(pl): Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 
 %description
 It consists of three daemons that logs incoming
@@ -112,40 +113,7 @@ PLOGICMP="-qlri \`hostname --ip-address\`"
 
 EOF
 
-cat  << EOF > $RPM_BUILD_ROOT/etc/logrotate.d/protolog
-compress
-
-/var/log/protolog/icmp.log {
-	daily
-	rotate 28
-}
-
-/var/log/protolog/icmp.raw {
-        daily
-	rotate 28
-}
-
-/var/log/protolog/tcp.log {
-	daily
-	rotate 28
-}
-
-/var/log/protolog/tcp.raw {
-	daily
-	rotate 28
-}
-
-/var/log/protolog/udp.log {
-	daily
-	rotate 28
-}
-
-/var/log/protolog/udp.raw {
-	daily
-	rotate 28
-}
-
-EOF
+install %{SOURCE1} /etc/logrotate.d/%{name}
 
 bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
 

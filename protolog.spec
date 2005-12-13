@@ -11,8 +11,8 @@ Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{versio
 # Source0-md5:	c5a48e61170b3ead0dc55ad86454da1d
 Source1:	%{name}.logrotate
 Patch0:		%{name}-1.0.8.make.diff
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description

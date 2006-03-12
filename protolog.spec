@@ -2,14 +2,15 @@ Summary:	The Internet Protocols logger
 Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
 Name:		protolog
 Version:	1.0.8
-Release:	6
+Release:	7
 License:	GPL
 Group:		Networking
-Vendor:		Diego Javier Grigna <diego@grigna.com>
 URL:		http://www.grigna.com/diego/linux/
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/network/monitor/%{name}-%{version}.tar.gz
 # Source0-md5:	c5a48e61170b3ead0dc55ad86454da1d
 Source1:	%{name}.logrotate
+Source2:	%{name}.conf
+Source3:	%{name}.init
 Patch0:		%{name}-1.0.8.make.diff
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
@@ -29,12 +30,13 @@ przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 
 %build
 %{__make} -C src \
+	CC="%{__cc}" \
 	OPT="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,logrotate.d},%{_sbindir},%{_mandir}/man8} \
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig,logrotate.d},%{_sbindir},%{_mandir}/man8} \
 	$RPM_BUILD_ROOT/var/log/archiv/protolog
 
 %{__make} -C src install \
@@ -44,80 +46,9 @@ install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,logrotate.d},%{_sbindir},%{_mandir}
 
 touch $RPM_BUILD_ROOT/var/log/protolog/{icmp.log,icmp.raw,tcp.log,tcp.raw,udp.log,udp.raw}
 
-cat << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
-#!/bin/bash
-#
-# chkconfig: 2345 50 50
-# description: IP protocols logger - logs TCP and ICMP.
-#
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-# Source networking configuration.
-. /etc/sysconfig/network
-
-PLOGTCP="-q"
-PLOGUDP="-q"
-PLOGICMP="-q"
-
-if [ -r %{_sysconfdir}/protolog.conf ]; then
-. %{_sysconfdir}/protolog.conf
-fi
-
-# Check that networking is up.
-[ \${NETWORKING} = "no" ] && exit 0
-# See how we were called.
-case "\$1" in
-	start)
-		show Starting protolog TCP daemon:
-		daemon plogtcp \$PLOGTCP
-		show Starting protolog UDP daemon:
-		daemon plogudp \$PLOGUDP
-		show Starting protolog ICMP daemon:
-		daemon plogicmp \$PLOGICMP
-		touch /var/lock/subsys/protolog
-		;;
-	stop)
-		show Stopping protolog TCP daemon:
-		killproc plogtcp
-		show Stopping protolog UDP daemon:
-		killproc plogudp
-		show Stopping protolog ICMP daemon:
-		killproc plogicmp
-		rm -f /var/lock/subsys/protolog
-		;;
-	status)
-		status protolog
-		;;
-	restart)
-		\$0 stop
-		\$0 start
-		;;
-	*)
-		echo "Usage: \$0 {start|stop|status|restart}"
-	exit 1
-esac
-
-exit 0
-EOF
-
-cat << EOF > $RPM_BUILD_ROOT%{_sysconfdir}/protolog.conf
-#
-# Opcje dla plogtcp - TCP packet logger
-# zobacz:	man plogtcp
-PLOGTCP="-qlri \`hostname --ip-address\`"
-
-# Opcje dla plogudp - UDP packet logger
-# zobacz:	man plogudp
-PLOGUDP="-qli \`hostname --ip-address\`"
-
-# Opcje dla plogicmp - ICMP packet logger
-# zobacz:	man plogicmp
-PLOGICMP="-qlri \`hostname --ip-address\`"
-
-EOF
-
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/protolog
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -139,5 +70,5 @@ fi
 %attr(750,root,root) %dir /var/log/archiv/protolog
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /var/log/protolog/*
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/protolog
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/protolog.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/protolog
 %{_mandir}/man8/*

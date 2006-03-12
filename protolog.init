@@ -9,9 +9,9 @@
 # Source networking configuration.
 . /etc/sysconfig/network
 
-PLOGTCP="-q"
-PLOGUDP="-q"
-PLOGICMP="-q"
+PLOGTCP=""
+PLOGUDP=""
+PLOGICMP=""
 
 if [ -f /etc/sysconfig/protolog ]; then
 	. /etc/sysconfig/protolog
@@ -33,16 +33,16 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/protolog ]; then
 		msg_starting "protolog TCP daemon"
-		daemon plogtcp $PLOGTCP
+		daemon plogtcp -q $PLOGTCP
 		RETVAL=$?
 
 		msg_starting "protolog UDP daemon"
-		daemon plogudp $PLOGUDP
+		daemon plogudp -q $PLOGUDP
 		RET=$?
 		[ $RET -ge 0 ] && RETVAL=$RET
 
 		msg_starting "protolog ICMP daemon"
-		daemon plogicmp $PLOGICMP
+		daemon plogicmp -q $PLOGICMP
 		RET=$?
 		[ $RET -ge 0 ] && RETVAL=$RET
 

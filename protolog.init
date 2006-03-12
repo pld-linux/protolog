@@ -13,8 +13,8 @@ PLOGTCP="-q"
 PLOGUDP="-q"
 PLOGICMP="-q"
 
-if [ -r /etc/sysconfig/protolog.conf ]; then
-	. /etc/sysconfig/protolog.conf
+if [ -f /etc/sysconfig/protolog ]; then
+	. /etc/sysconfig/protolog
 fi
 
 # Check that networking is up.

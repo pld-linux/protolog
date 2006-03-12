@@ -67,11 +67,11 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/BUGS doc/README
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/protolog
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/protolog
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
 %attr(750,root,root) %dir /var/log/archiv/protolog
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /var/log/protolog/*
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/protolog
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/protolog
+%ghost %attr(640,root,root) /var/log/protolog/*
 %{_mandir}/man8/*

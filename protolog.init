@@ -35,14 +35,17 @@ case "$1" in
 		msg_starting "protolog TCP daemon"
 		daemon plogtcp $PLOGTCP
 		RETVAL=$?
+
 		msg_starting "protolog UDP daemon"
 		daemon plogudp $PLOGUDP
 		RET=$?
-		[ $RETVAL -eq 0 ] && RETVAL=$RET
+		[ $RET -ge 0 ] && RETVAL=$RET
+
 		msg_starting "protolog ICMP daemon"
 		daemon plogicmp $PLOGICMP
 		RET=$?
-		[ $RETVAL -eq 0 ] && RETVAL=$RET
+		[ $RET -ge 0 ] && RETVAL=$RET
+
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/protolog
 	else
 		msg_already_running Protolog
@@ -52,10 +55,13 @@ case "$1" in
 	if [ -f /var/lock/subsys/protolog ]; then
 		msg_stopping "protolog TCP daemon"
 		killproc plogtcp
+
 		msg_stopping "protolog UDP daemon"
 		killproc plogudp
+
 		msg_stopping "protolog ICMP daemon"
 		killproc plogicmp
+
 		rm -f /var/lock/subsys/protolog
 	else
 		msg_not_running Protolog

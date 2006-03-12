@@ -1,0 +1,10 @@
+# Log ICMP simple log and raw data
+PLOGICMP='-l'
+
+# Log TCP simple log and raw data
+# and log only packets with the URG, PSH, SYN and FIN flags on
+# (SYN , stealth FIN, and Xmas URG, PSH FIN scannings)
+PLOGTCP='-l -f 43'
+
+# Log UDP simple log and raw data
+PLOGUDP='-l'

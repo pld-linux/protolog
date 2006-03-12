@@ -54,13 +54,13 @@ case "$1" in
   stop)
 	if [ -f /var/lock/subsys/protolog ]; then
 		msg_stopping "protolog TCP daemon"
-		killproc plogtcp
+		killproc plogtcp -KILL
 
 		msg_stopping "protolog UDP daemon"
-		killproc plogudp
+		killproc plogudp -KILL
 
 		msg_stopping "protolog ICMP daemon"
-		killproc plogicmp
+		killproc plogicmp -KILL
 
 		rm -f /var/lock/subsys/protolog
 	else

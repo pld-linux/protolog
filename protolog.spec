@@ -12,6 +12,7 @@ Source1:	%{name}.logrotate
 Source2:	%{name}.conf
 Source3:	%{name}.init
 Patch0:		%{name}-1.0.8.make.diff
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -55,9 +56,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add protolog
+%service protolog restart
 
 %preun
 if [ "$1" = "0" ]; then
+	%service protolog stop
 	/sbin/chkconfig --del protolog
 fi
 

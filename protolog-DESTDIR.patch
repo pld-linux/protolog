@@ -1,0 +1,63 @@
+--- protolog-1.0.8/src/Makefile~	2006-03-13 00:07:09.000000000 +0200
++++ protolog-1.0.8/src/Makefile	2006-03-13 00:22:17.000000000 +0200
+@@ -87,35 +87,35 @@
+ 	strip plogtcp plogudp plogicmp ipretplog
+ 
+ install:
+-	@$(MKDIRECTORY) ${bindir}
+-	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogtcp ${bindir}
+-	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogudp ${bindir}
+-	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogicmp ${bindir}
+-	$(INSTALL) -m $(BINMODE) -s ${srcdir}/ipretplog ${bindir}
+-	$(INSTALL) -m $(BINMODE) ${srcdir}/LaunchLoggers ${bindir}
+-	$(INSTALL) -m $(BINMODE) ${srcdir}/KillLoggers ${bindir}
++	@$(MKDIRECTORY) $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogtcp $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogudp $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/plogicmp $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) -s ${srcdir}/ipretplog $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) ${srcdir}/LaunchLoggers $(DESTDIR)${bindir}
++	$(INSTALL) -m $(BINMODE) ${srcdir}/KillLoggers $(DESTDIR)${bindir}
+ 	@echo "Installing man pages..."
+-	@$(MKDIRECTORY) ${mandir}
+-	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogtcp.8.in   > ${mandir}/plogtcp.8
+-	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogudp.8.in   > ${mandir}/plogudp.8
+-	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogicmp.8.in  > ${mandir}/plogicmp.8
+-	@$(SEDBIN) $(SEDCMDS) ${docdir}/ipretplog.8.in > ${mandir}/ipretplog.8
+-	$(MKDIRECTORY) ${logdir}
+-	@chmod $(LOGDIRMODE) ${logdir}
++	@$(MKDIRECTORY) $(DESTDIR)${mandir}
++	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogtcp.8.in   > $(DESTDIR)${mandir}/plogtcp.8
++	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogudp.8.in   > $(DESTDIR)${mandir}/plogudp.8
++	@$(SEDBIN) $(SEDCMDS) ${docdir}/plogicmp.8.in  > $(DESTDIR)${mandir}/plogicmp.8
++	@$(SEDBIN) $(SEDCMDS) ${docdir}/ipretplog.8.in > $(DESTDIR)${mandir}/ipretplog.8
++	$(MKDIRECTORY) $(DESTDIR)${logdir}
++	@chmod $(LOGDIRMODE) $(DESTDIR)${logdir}
+ 	@echo
+ 
+ uninstall:
+-	rm -f ${bindir}/plogtcp
+-	rm -f ${bindir}/plogudp
+-	rm -f ${bindir}/plogicmp
+-	rm -f ${bindir}/ipretplog
+-	rm -f ${logdir}
+-	rm -f ${mandir}/plogtcp.8
+-	rm -f ${mandir}/plogudp.8
+-	rm -f ${mandir}/plogicmp.8
+-	rm -f ${mandir}/ipretplog.8
+-	rm -f ${bindir}/LaunchLoggers
+-	rm -f ${bindir}/KillLoggers
++	rm -f $(DESTDIR)${bindir}/plogtcp
++	rm -f $(DESTDIR)${bindir}/plogudp
++	rm -f $(DESTDIR)${bindir}/plogicmp
++	rm -f $(DESTDIR)${bindir}/ipretplog
++	rm -f $(DESTDIR)${logdir}
++	rm -f $(DESTDIR)${mandir}/plogtcp.8
++	rm -f $(DESTDIR)${mandir}/plogudp.8
++	rm -f $(DESTDIR)${mandir}/plogicmp.8
++	rm -f $(DESTDIR)${mandir}/ipretplog.8
++	rm -f $(DESTDIR)${bindir}/LaunchLoggers
++	rm -f $(DESTDIR)${bindir}/KillLoggers
+ 
+ .c.o:
+ 	$(CC) $(CCOPTS) $(WARNINGS) -c $<

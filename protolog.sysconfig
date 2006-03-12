@@ -1,3 +1,10 @@
+# Customized settings for protolog
+
+# Ignore packets. hostname can be a hostname, a network name, or an IP address.
+# You can also use this option more than once, to ignore logging packets from
+# hosts that belong to different networks.
+#IGNORE_ADDR=hostname[/mask]
+
 # Log ICMP simple log and raw data
 PLOGICMP='-l'
 

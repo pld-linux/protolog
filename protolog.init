@@ -12,6 +12,7 @@
 PLOGTCP=""
 PLOGUDP=""
 PLOGICMP=""
+COMMON_ARGS=""
 
 if [ -f /etc/sysconfig/protolog ]; then
 	. /etc/sysconfig/protolog
@@ -32,17 +33,20 @@ case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/protolog ]; then
+		for addr in $IGNORE_ADDR; do
+			COMMON_ARGS="$COMMON_ARGS -i $addr"
+		done
 		msg_starting "protolog TCP daemon"
-		daemon plogtcp -q $PLOGTCP
+		daemon plogtcp -q $COMMON_ARGS $PLOGTCP
 		RETVAL=$?
 
 		msg_starting "protolog UDP daemon"
-		daemon plogudp -q $PLOGUDP
+		daemon plogudp -q $COMMON_ARGS $PLOGUDP
 		RET=$?
 		[ $RET -ge 0 ] && RETVAL=$RET
 
 		msg_starting "protolog ICMP daemon"
-		daemon plogicmp -q $PLOGICMP
+		daemon plogicmp -q $COMMON_ARGS $PLOGICMP
 		RET=$?
 		[ $RET -ge 0 ] && RETVAL=$RET
 

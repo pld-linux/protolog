@@ -24,7 +24,7 @@ It consists of three daemons that logs incoming IP/TCP, IP/UDP and
 IP/ICMP packets.
 
 %description -l pl
-Pakiet zawiera trzy deamony loguj±ce informacjê na temat
+Pakiet zawiera trzy daemony loguj±ce informacjê na temat
 przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 
 %prep

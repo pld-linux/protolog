@@ -1,5 +1,5 @@
 Summary:	The Internet Protocols logger
-Summary(pl):	Program zapisuj±cy informacje zwi±zane z protoko³ami Internetowymi
+Summary(pl.UTF-8):   Program zapisujÄ…cy informacje zwiÄ…zane z protokoÅ‚ami Internetowymi
 Name:		protolog
 Version:	1.0.8
 Release:	8
@@ -23,9 +23,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 It consists of three daemons that logs incoming IP/TCP, IP/UDP and
 IP/ICMP packets.
 
-%description -l pl
-Pakiet zawiera trzy daemony loguj±ce informacjê na temat
-przychodz±cych pakietów IP/TCP, IP/UDP oraz IP/ICMP.
+%description -l pl.UTF-8
+Pakiet zawiera trzy daemony logujÄ…ce informacjÄ™ na temat
+przychodzÄ…cych pakietÃ³w IP/TCP, IP/UDP oraz IP/ICMP.
 
 %prep
 %setup -q

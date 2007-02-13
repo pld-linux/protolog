@@ -1,5 +1,5 @@
 Summary:	The Internet Protocols logger
-Summary(pl.UTF-8):   Program zapisujący informacje związane z protokołami Internetowymi
+Summary(pl.UTF-8):	Program zapisujący informacje związane z protokołami Internetowymi
 Name:		protolog
 Version:	1.0.8
 Release:	8

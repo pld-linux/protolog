@@ -41,7 +41,7 @@ przychodzących pakietów IP/TCP, IP/UDP oraz IP/ICMP.
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig,logrotate.d},%{_sbindir},%{_mandir}/man8} \
-	$RPM_BUILD_ROOT/var/log/archiv/protolog
+	$RPM_BUILD_ROOT/var/log/archive/protolog
 
 %{__make} -C src install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -83,6 +83,6 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
-%attr(750,root,root) %dir /var/log/archiv/protolog
+%attr(750,root,root) %dir /var/log/archive/protolog
 %ghost %attr(640,root,root) /var/log/protolog/*
 %{_mandir}/man8/*

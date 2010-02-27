@@ -85,5 +85,5 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/protolog
 %attr(750,root,root) %dir /var/log/protolog
 %attr(750,root,root) %dir /var/log/archive/protolog
-%ghost %attr(640,root,root) /var/log/protolog/*
+%attr(640,root,root) %ghost /var/log/protolog/*
 %{_mandir}/man8/*
